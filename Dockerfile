@@ -1,6 +1,10 @@
 FROM golang:1.8
 
-WORKDIR /go/src/app
+RUN mkdir $GOPATH/src/github.com
+RUN mkdir $GOPATH/src/github.com/walkerrandolphsmith
+RUN mkdir $GOPATH/src/github.com/walkerrandolphsmith/go-playground
+
+WORKDIR /$GOPATH/src/github.com/walkerrandolphsmith/go-playground
 
 COPY . .
 
