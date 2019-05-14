@@ -7,9 +7,10 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
 	"github.com/walkerrandolphsmith/go-playground/features/flag"
+	"github.com/walkerrandolphsmith/go-playground/internal/config"
 )
 
-func Routes() *chi.Mux {
+func Routes(configuration *config.Config) *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(
 		render.SetContentType(render.ContentTypeJSON),
@@ -20,14 +21,18 @@ func Routes() *chi.Mux {
 	)
 
 	router.Route("/v1", func(r chi.Router) {
-		r.Mount("/api/flag", flag.Routes())
+		r.Mount("/api/flag", flag.New(configuration).Routes())
 	})
 
 	return router
 }
 
 func main() {
-	router := Routes()
-
-	log.Fatal(http.ListenAndServe(":8080", router))
+	configuration, err := config.New()
+	if err != nil {
+		log.Panicln("Configuration error", err)
+	}
+	router := Routes(configuration)
+	log.Println("Serving application at PORT :" + configuration.Constants.PORT)
+	log.Fatal(http.ListenAndServe(":"+configuration.Constants.PORT, router))
 }

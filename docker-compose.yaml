@@ -1,0 +1,43 @@
+version: "3.3"
+
+networks:
+  internalnet:
+
+volumes:
+  data-db:
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: flag-api-image-dev
+    container_name: flag-api-container-dev
+    ports:
+      - "3000:3000"
+    networks:
+      - internalnet
+    command: go run main.go
+  db:
+    image: mongo:3.6-jessie
+    container_name: flag-db-container-dev
+    environment:
+      MONGO_URI: mongodb://db:27017/dev-db
+    expose:
+      - "27017"
+    networks:
+      - internalnet
+    volumes:
+      - data-db:/data/db
+
+  db-ui:
+    image: mongo-express
+    container_name: flag-db-ui-container-dev
+    ports:
+      - "8081:8081"
+    networks:
+      - internalnet
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: pass
+      ME_CONFIG_MONGODB_SERVER: db

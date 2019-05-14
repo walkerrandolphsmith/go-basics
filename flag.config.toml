@@ -1,0 +1,4 @@
+PORT=3000
+[Mongo]
+  URL = "db:27017"
+  DBName = "openflags"
