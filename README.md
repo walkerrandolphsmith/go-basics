@@ -25,3 +25,15 @@ import (
 	"github.com/walkerrandolphsmith/go-playground/features/flag"
 )
 ```
+
+First we should build our contianers using
+```
+./ctl.sh build
+```
+
+Next we can run our application using
+```
+./ctl.sh up
+```
+
+Interact with the API via <a href="http://localhost:3000/v1/api/flag">http://localhost:3000/v1/api/flag</a> or the database ui via <a href="http://localhost:8081">http://localhost:8081</a>

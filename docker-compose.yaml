@@ -18,6 +18,7 @@ services:
     networks:
       - internalnet
     command: go run main.go
+
   db:
     image: mongo:3.6-jessie
     container_name: flag-db-container-dev
